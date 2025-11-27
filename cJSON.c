@@ -125,7 +125,11 @@ CJSON_PUBLIC(const char *)
 cJSON_Version(void)
 {
     static char version[15];
-    sprintf(version, CJSON_VERSION_MAJOR, CJSON_VERSION_MINOR, CJSON_VERSION_PATCH); /*CWE-134 */
+   /* sprintf(version, CJSON_VERSION_MAJOR, CJSON_VERSION_MINOR, CJSON_VERSION_PATCH);*/ /*CWE-134 */
+  sprintf(version, "%d.%d.%d",
+        CJSON_VERSION_MAJOR,
+        CJSON_VERSION_MINOR,
+        CJSON_VERSION_PATCH); /*CWE-134 */
 
     return version;
 }
@@ -494,14 +498,14 @@ static unsigned char *ensure(printbuffer *const p, size_t needed)
     {
         /* reallocate with realloc if available */
         newbuffer = (unsigned char *)p->hooks.reallocate(p->buffer, newsize);
-        // if (newbuffer == NULL)
-        // {
-        //     p->hooks.deallocate(p->buffer);
-        //     p->length = 0;
-        //     p->buffer = NULL;
+        /* if (newbuffer == NULL)
+         {
+             p->hooks.deallocate(p->buffer);
+             p->length = 0;
+             p->buffer = NULL;
 
-        //     return NULL;
-        // }
+             return NULL;
+         }*/
         p->buffer = newbuffer; /*CWE-252*/
     }
     else
